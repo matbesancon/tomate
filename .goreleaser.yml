@@ -1,7 +1,7 @@
 # .goreleaser.yml
 # Build customization
 builds:
-  - main: cmd/main.go
+  - main: cmd/tomate/main.go
     binary: tomate
     goos:
       - windows
