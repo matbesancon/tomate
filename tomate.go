@@ -50,7 +50,7 @@ func (p *Pomodoro) sprint(w io.Writer) {
 	}
 	d := p.launch(p.Focus)
 	_, err := fmt.Fprintf(
-		w, "End of sprint after %v\n", int(d),
+		w, "End of sprint after %v\n", d,
 	)
 	if err != nil {
 		log.Fatalf("Error writing end of sprint: %s\n", err.Error())
@@ -67,7 +67,7 @@ func (p *Pomodoro) pause(w io.Writer, long bool) {
 		d = p.launch(p.ShortPause)
 	}
 	_, err := fmt.Fprintf(
-		w, "End of pause after %v\n", int(d),
+		w, "End of pause after %v\n", d,
 	)
 	if err != nil {
 		log.Fatalf("Error writing end of pause: %s\n", err.Error())
