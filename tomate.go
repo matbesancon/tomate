@@ -77,6 +77,11 @@ func (p *Pomodoro) pause(w io.Writer, long bool) {
 
 // Loop starts looping between the three states
 func (p *Pomodoro) Loop(w io.Writer) {
+	fmt.Fprintf(
+		w,
+		"--------Starting tomate--------\nshort: %v - long: %v - num sprints: %v\n",
+		p.ShortPause, p.LongPause, p.NumberSprints,
+	)
 	for {
 		for sprint := 0; sprint < p.NumberSprints-1; sprint++ {
 			p.sprint(w)
