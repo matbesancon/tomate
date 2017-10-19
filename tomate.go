@@ -1,11 +1,11 @@
 package tomate
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"log"
 	"os"
-	"os/signal"
 	"time"
 
 	"github.com/0xAX/notificator"
@@ -34,12 +34,18 @@ func New(focus, short, long, nsprints int) Pomodoro {
 // Launch starts a timer
 func (p *Pomodoro) launch(d time.Duration) time.Duration {
 	start := time.Now()
-	sigs := make(chan os.Signal, 1)
-	signal.Notify(sigs, os.Interrupt)
+	skipPhase := make(chan struct{})
+	scanner := bufio.NewScanner(os.Stdin)
+	go func(s chan struct{}) {
+		for scanner.Scan() {
+			s <- struct{}{}
+			return
+		}
+	}(skipPhase)
 	select {
 	case <-time.After(d):
 		return time.Since(start)
-	case <-sigs:
+	case <-skipPhase:
 		return time.Since(start)
 	}
 }
