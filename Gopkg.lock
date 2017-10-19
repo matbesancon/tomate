@@ -5,7 +5,7 @@
   branch = "master"
   name = "github.com/0xAX/notificator"
   packages = ["."]
-  revision = "6bcea42e61381c13704c7fb6eb2438950f335832"
+  revision = "4547bc79e614e01ec3a18ca03f1b6b3c48170339"
 
 [solve-meta]
   analyzer-name = "dep"
