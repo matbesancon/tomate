@@ -45,19 +45,21 @@ func (p *Pomodoro) launch(d time.Duration) time.Duration {
 }
 
 func (p *Pomodoro) sprint(w io.Writer) {
-	w.Write([]byte("Starting sprint"))
+	if _, err := fmt.Fprintln(w, "Starting sprint"); err != nil {
+		log.Fatalf("Error writing start of sprint: %s", err.Error())
+	}
 	d := p.launch(p.Focus)
 	_, err := fmt.Fprintf(
-		w, "End of sprint after %v\n", d,
+		w, "End of sprint after %v\n", int(d),
 	)
 	if err != nil {
-		log.Printf("Error writing end of sprint: %s\n", err.Error())
+		log.Fatalf("Error writing end of sprint: %s\n", err.Error())
 	}
 	p.ntf.Push("End of sprint", "Take some rest", "", notificator.UR_NORMAL)
 }
 
 func (p *Pomodoro) pause(w io.Writer, long bool) {
-	w.Write([]byte("Starting pause"))
+	fmt.Fprintln(w, "Starting pause")
 	var d time.Duration
 	if long {
 		d = p.launch(p.LongPause)
@@ -65,10 +67,10 @@ func (p *Pomodoro) pause(w io.Writer, long bool) {
 		d = p.launch(p.ShortPause)
 	}
 	_, err := fmt.Fprintf(
-		w, "End of pause after %v\n", d,
+		w, "End of pause after %v\n", int(d),
 	)
 	if err != nil {
-		log.Printf("Error writing end of pause: %s\n", err.Error())
+		log.Fatalf("Error writing end of pause: %s\n", err.Error())
 	}
 	p.ntf.Push("End of pause", "Back to Work", "", notificator.UR_NORMAL)
 }
